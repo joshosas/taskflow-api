@@ -12,7 +12,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,25 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title'    => ['required', 'string', 'min:2', 'max:120'],
+            'priority' => ['sometimes', 'required', 'string', 'in:low,medium,high'],
+        ];
+    }
+
+     protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'title' => strip_tags($this->title),
+        ]);
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Task title is required.',
+            'title.min'      => 'Task title must be at least 2 characters.',
+            'title.max'      => 'Task title cannot exceed 120 characters.',
+            'priority.in'    => 'Priority must be low, medium, or high.',
         ];
     }
 }

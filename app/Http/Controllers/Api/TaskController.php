@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\Task;
@@ -31,7 +33,7 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      */
     // POST /api/projects/{project}/tasks
-    public function store(Request $request, Project $project): TaskResource
+    public function store(StoreTaskRequest $request, Project $project): TaskResource
     {
         $task = $project->tasks()->create($request->validated());
 
@@ -50,7 +52,7 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      */
     // PUT /api/projects/{project}/tasks/{task}
-    public function update(Request $request, Project $project, Task $task): TaskResource
+    public function update(UpdateTaskRequest $request, Project $project, Task $task): TaskResource
     {
         $task->update($request->validated());
 
